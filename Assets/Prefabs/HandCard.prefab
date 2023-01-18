@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26806be371c8d4a509a6b7bb353c13cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assetReference: {fileID: 11400000, guid: 0a6848fcbdee14740ac412a42064e7d5, type: 2}
+  cardData: {fileID: 11400000, guid: 0a6848fcbdee14740ac412a42064e7d5, type: 2}
   energyDisplay: {fileID: 4217508969049392142}
   avatarDisplay: {fileID: 6854595799473715553}
   healthDisplay: {fileID: 439506715348816219}

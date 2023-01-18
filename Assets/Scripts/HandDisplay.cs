@@ -26,9 +26,9 @@ public class HandDisplay : MonoBehaviour
     {
         if (!eventData.IsEnemy)
         {
-            foreach (GameObject card in playerHandSpawn.transform)
+            foreach (Transform child in playerHandSpawn.transform)
             {
-                Destroy(card);
+                Destroy(child.gameObject);
             }
             foreach (CardId cardId in eventData.HandCards)
             {
@@ -38,9 +38,9 @@ public class HandDisplay : MonoBehaviour
         }
         else
         {
-            foreach (GameObject card in enemyHandSpawn.transform)
+            foreach (Transform child in enemyHandSpawn.transform)
             {
-                Destroy(card);
+                Destroy(child.gameObject);
             }
             foreach (CardId cardId in eventData.HandCards)
             {
