@@ -5,7 +5,7 @@ using Mirror;
 
 public class GameManager : NetworkBehaviour
 {
-    public SyncList<HandManager> handManagers;
+    // public SyncList<HandManager> handManagers;
 
     // Start is called before the first frame update
     void Start()

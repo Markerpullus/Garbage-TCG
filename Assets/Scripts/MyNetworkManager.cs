@@ -5,13 +5,19 @@ using Mirror;
 
 public class MyNetworkManager : NetworkManager
 {
-    public GameManager gameManagerReference;
+    public GameManager gameManagerPrefab;
 
     public override void OnStartServer()
     {
         base.OnStartServer();
 
-        var gameManager = Instantiate(gameManagerReference);
+        var gameManager = Instantiate(gameManagerPrefab);
         NetworkServer.Spawn(gameManager.gameObject);
+    }
+
+    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+    {
+        base.OnServerAddPlayer(conn);
+
     }
 }
