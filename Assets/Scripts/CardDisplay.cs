@@ -5,7 +5,7 @@ using TMPro;
 
 public class CardDisplay : MonoBehaviour
 {
-    public HandCard assetReference;
+    public HandCard cardData;
 
     [Header("Display Elements")]
     public TMP_Text energyDisplay;
@@ -16,11 +16,11 @@ public class CardDisplay : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        energyDisplay.text = assetReference.energy.ToString();
-        healthDisplay.text = assetReference.maxHealth.ToString();
-        avatarDisplay.sprite = assetReference.avatar;
+        energyDisplay.text = cardData.energy.ToString();
+        healthDisplay.text = cardData.maxHealth.ToString();
+        avatarDisplay.sprite = cardData.avatar;
 
-        switch (assetReference.rarityType)
+        switch (cardData.rarityType)
         {
             case RarityType.Common:
                 backgroundDisplay.color = new Color(204, 102, 0); //brown
