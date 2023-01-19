@@ -5,7 +5,7 @@ using TMPro;
 
 public class CardDisplay : MonoBehaviour
 {
-    public HandCard cardData;
+    public CardScriptable cardData;
 
     [Header("Display Elements")]
     public TMP_Text energyDisplay;

@@ -11,7 +11,7 @@ public class HandDisplay : MonoBehaviour
     public RectTransform enemyHandSpawn;
 
     // Start is called before the first frame update
-    void OnEnable()
+    void Start()
     {
         EventDispatcher.Instance.AddEventHandler<HandChangeEvent>(4, OnHandChange);
     }
@@ -33,7 +33,7 @@ public class HandDisplay : MonoBehaviour
             foreach (CardId cardId in eventData.HandCards)
             {
                 var newCard = Instantiate(cardPrefab, playerHandSpawn);
-                newCard.cardData = HandCard.CreateCard(cardId);
+                newCard.cardData = CardScriptable.LoadCardFromDisk(cardId);
             }
         }
         else
@@ -45,7 +45,7 @@ public class HandDisplay : MonoBehaviour
             foreach (CardId cardId in eventData.HandCards)
             {
                 var newCard = Instantiate(cardPrefab, enemyHandSpawn);
-                newCard.cardData = HandCard.CreateCard(cardId);
+                newCard.cardData = CardScriptable.LoadCardFromDisk(cardId);
             }
         }
     }

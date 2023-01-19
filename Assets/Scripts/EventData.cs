@@ -14,3 +14,18 @@ public struct HandChangeEvent
         HandCards = handCards;
     }
 }
+
+// #5: Minion deploy event
+public struct MinionDeployEvent
+{
+    public bool IsEnemy { get; private set; }
+    public GameObject NewMinion;
+    public int Location;
+
+    public MinionDeployEvent(bool isEnemy, GameObject newMinion, int location)
+    {
+        IsEnemy = isEnemy;
+        NewMinion = newMinion;
+        Location = location;
+    }
+}

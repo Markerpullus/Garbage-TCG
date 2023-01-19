@@ -8,9 +8,6 @@ public delegate void EventHandler<in T>(short type, T data);
 
 // https://gist.github.com/yangruihan/4473a409fbe6bb1d007d470046b2fb9b
 // Added my own singleton design
-/*
- * #4: Hand Change
-*/
 public class EventDispatcher : MonoBehaviour
 {
     public static EventDispatcher Instance { get; private set; }

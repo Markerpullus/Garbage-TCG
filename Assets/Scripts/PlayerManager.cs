@@ -6,6 +6,7 @@ using Mirror;
 public class PlayerManager : NetworkBehaviour
 {
     public readonly SyncList<CardId> playerHand = new SyncList<CardId>();
+    public readonly SyncList<MinionCardBehaviour> deployedMinions = new SyncList<MinionCardBehaviour>();
 
     public CardDisplay cardDisplay;
 
@@ -20,6 +21,24 @@ public class PlayerManager : NetworkBehaviour
         // Bind events
     }
 
+    // Might ptimize later so that not the entire handcard class is sent over network
+    [Command]
+    public void CmdDeployMinion(CardId card, int location)
+    {
+        var newMinionPrefab = CardScriptable.LoadMinionFromDisk(card);
+        if (!newMinionPrefab) { Debug.Log("Card is not minion"); return; }
+        var newMinion = Instantiate(newMinionPrefab);
+        NetworkServer.Spawn(newMinion.gameObject);
+        deployedMinions.Insert(location, newMinion);
+        RpcDeployMinion(newMinion.gameObject, location);
+    }
+
+    [ClientRpc]
+    public void RpcDeployMinion(GameObject newMinion, int location)
+    {
+        EventDispatcher.Instance.SendEvent(5, new MinionDeployEvent(!isLocalPlayer, newMinion, location));
+    }
+
     // test function
     [Command]
     public void CmdAddCard(CardId card)
@@ -32,15 +51,7 @@ public class PlayerManager : NetworkBehaviour
     public void RpcUpdateHand()
     {
         var newHand = new List<CardId>(playerHand);
-        if (isLocalPlayer)
-        {
-            EventDispatcher.Instance.SendEvent(4, new HandChangeEvent(false, newHand));
-        }
-        else
-        {
-            // draw only the card backs at enemycardspawn
-            EventDispatcher.Instance.SendEvent(4, new HandChangeEvent(true, newHand));
-        }
+        EventDispatcher.Instance.SendEvent(4, new HandChangeEvent(!isLocalPlayer, newHand));
     }
 
     // Start is called before the first frame update
@@ -53,9 +64,14 @@ public class PlayerManager : NetworkBehaviour
     void Update()
     {
         // test button press
+        if (!isLocalPlayer) { return; }
         if (Input.GetKeyDown(KeyCode.C))
         {
             CmdAddCard(CardId.BasicMinion);
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            CmdDeployMinion(CardId.BasicMinion, 0);
         }
     }
 }

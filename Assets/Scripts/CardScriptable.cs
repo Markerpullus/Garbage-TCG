@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class HandCard : ScriptableObject
+public class CardScriptable : ScriptableObject
 {
     [Header("Identity")]
     public CardId cardId;
@@ -22,12 +22,18 @@ public class HandCard : ScriptableObject
     public Sprite avatar;
 
     // TODO
-    public static HandCard CreateCard(CardId cardId)
+    public static CardScriptable LoadCardFromDisk(CardId cardId)
     {
-
-        var newCard = Resources.Load<HandCard>("Scriptables/" + Enum.GetName(typeof(CardId), cardId));
-        if (!newCard) { Debug.Log("name does not exist"); return null; }
+        var newCard = Resources.Load<CardScriptable>("Scriptables/" + Enum.GetName(typeof(CardId), cardId));
+        if (!newCard) { Debug.Log("Card scriptable does not exist"); return null; }
         return newCard;
+    }
+
+    public static MinionCardBehaviour LoadMinionFromDisk(CardId cardId)
+    {
+        var newMinion = Resources.Load<MinionCardBehaviour>("Prefabs/" + Enum.GetName(typeof(CardId), cardId));
+        if (!newMinion) { Debug.Log("Minion prefab does not exist"); return null; }
+        return newMinion;
     }
 }
 
