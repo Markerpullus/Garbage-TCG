@@ -9,7 +9,6 @@ public class MinionDisplay : MonoBehaviour
 
     void Start()
     {
-        if (!EventDispatcher.Instance) {Debug.Log(1);}
         EventDispatcher.Instance.AddEventHandler<MinionDeployEvent>(5, OnMinionDeploy);
     }
 
@@ -18,13 +17,12 @@ public class MinionDisplay : MonoBehaviour
         var newMinion = eventData.NewMinion;
         if (!eventData.IsEnemy)
         {
-            newMinion.transform.SetParent(playerMinionSpawn);
+            newMinion.transform.SetParent(playerMinionSpawn, false);
         }
         else
         {
-            newMinion.transform.SetParent(enemyMinionSpawn);
+            newMinion.transform.SetParent(enemyMinionSpawn, false);
         }
-        newMinion.transform.localScale = new Vector3(15, 15, 15);
         newMinion.transform.SetSiblingIndex(eventData.Location);
     }
 }
