@@ -81,7 +81,29 @@ public class PlayerManager : NetworkBehaviour
     // Event handlers
     void OnCardClick(short type, CardClickEvent eventData)
     {
-        selectedCard = eventData.Card;
+        if (eventData.Card.isDeployed)
+        {
+
+        }
+        else
+        {
+            if (!selectedCard)
+            {
+                selectedCard = eventData.Card;
+                selectedCard.OnSelect();
+            }
+            else if (selectedCard != eventData.Card)
+            {
+                selectedCard.OnDeselect();
+                selectedCard = eventData.Card;
+                selectedCard.OnSelect();
+            }
+            else if (selectedCard == eventData.Card)
+            {
+                selectedCard.OnDeselect();
+                selectedCard = null;
+            }
+        }
     }
 
     void OnFieldSelect(short type, FieldSelectEvent eventData)
@@ -93,7 +115,7 @@ public class PlayerManager : NetworkBehaviour
             {
                 Debug.Log("Deploy minion");
                 CmdRequestDeployMinion(selectedCard, 0);
-                
+                selectedCard = null;
             }
 
             // if card is action

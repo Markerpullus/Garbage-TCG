@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Mirror;
-using TMPro;
 
-public class CardBehaviour : NetworkBehaviour, IPointerClickHandler
+[RequireComponent(typeof(CardDisplay))]
+public class CardBehaviour : NetworkBehaviour
 {
     public CardScriptable cardData;
 
@@ -18,62 +17,34 @@ public class CardBehaviour : NetworkBehaviour, IPointerClickHandler
     [SyncVar]
     public PlayerManager owner;
 
-    [Header("Display Elements")]
-    public TMP_Text energyDisplay;
-    public SpriteRenderer avatarDisplay;
-    public TMP_Text healthDisplay;
-    public SpriteRenderer backgroundDisplay;
-    public SpriteRenderer backDisplay;
+    [Header("Display")]
+    CardDisplay display;
 
     // Start is called before the first frame update
     void OnEnable()
     {
         if (isServer) { health = cardData.maxHealth; }
-
-        energyDisplay.text = cardData.energy.ToString();
-        healthDisplay.text = cardData.maxHealth.ToString();
-        avatarDisplay.sprite = cardData.avatar;
-
-        switch (cardData.cardRarity)
-        {
-            case CardRarity.Common:
-                backgroundDisplay.color = new Color(204, 102, 0); //brown
-                break;
-            case CardRarity.Uncommon:
-                backgroundDisplay.color = Color.green; //green
-                break;
-            case CardRarity.Rare:
-                backgroundDisplay.color = Color.blue; //blue
-                break;
-            case CardRarity.SuperRare:
-                backgroundDisplay.color = new Color(255, 128, 0); //orange
-                break;
-            case CardRarity.Legendary:
-                backgroundDisplay.color = Color.red; //red
-                break;
-            case CardRarity.Transcendant:
-                backgroundDisplay.color = Color.white; //reflective (post procesing???)
-                Debug.Log("I dont fucking know");
-                break;
-        }
-        //Card rarity colors: common brown uncommon green rare blue super rare orange legendary red transcendant glow
+        display = GetComponent<CardDisplay>();
     }
 
     public void SetDisplay(bool enabled)
     {
-        if (enabled)
-        {
-            transform.localScale = new Vector3(15, 15, 1);
-        }
-        else
-        {
-            transform.localScale = new Vector3(0, 0, 0);
-        }
+        display.SetDisplay(enabled);
     }
 
     public void SetCardBack(bool enabled)
     {
-        backDisplay.gameObject.SetActive(enabled);
+        display.SetCardBack(enabled);
+    }
+
+    public void OnSelect()
+    {
+        display.SetYShift(20f);
+    }
+
+    public void OnDeselect()
+    {
+        display.SetYShift(-20f);
     }
 
     // Update is called once per frame
@@ -82,7 +53,7 @@ public class CardBehaviour : NetworkBehaviour, IPointerClickHandler
         
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnCardClick()
     {
         EventDispatcher.Instance.SendEvent(6, new CardClickEvent(this));
     }

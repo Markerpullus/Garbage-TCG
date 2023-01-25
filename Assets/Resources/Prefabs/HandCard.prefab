@@ -439,6 +439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4151196082264527158}
   - component: {fileID: 5649989680330712844}
+  - component: {fileID: 3478278540610040493}
   - component: {fileID: 2604291705222494613}
   - component: {fileID: 1246397951624132014}
   - component: {fileID: 3626265914557365187}
@@ -493,6 +494,18 @@ MonoBehaviour:
   health: 0
   isDeployed: 0
   owner: {fileID: 0}
+--- !u!114 &3478278540610040493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7136864389278275613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1946f70923a17144d99912b5a08aa7c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   energyDisplay: {fileID: 4217508969049392142}
   avatarDisplay: {fileID: 6854595799473715553}
   healthDisplay: {fileID: 439506715348816219}
