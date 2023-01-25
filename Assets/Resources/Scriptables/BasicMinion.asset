@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07558913cbce64444bebe18fb863b50e, type: 3}
   m_Name: BasicMinion
   m_EditorClassIdentifier: 
-  cardId: 1
-  cardType: 0
-  rarityType: 0
+  cardType: 1
+  cardCategory: 0
+  cardRarity: 0
   maxHealth: 100
   energy: 5
   name: Basic Minion

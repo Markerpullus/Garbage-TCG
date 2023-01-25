@@ -7,9 +7,9 @@ using UnityEngine;
 public class CardScriptable : ScriptableObject
 {
     [Header("Identity")]
-    public CardId cardId;
     public CardType cardType;
-    public RarityType rarityType;
+    public CardCategory cardCategory;
+    public CardRarity cardRarity;
 
     [Header("Stats")]
     public int maxHealth;
@@ -22,22 +22,22 @@ public class CardScriptable : ScriptableObject
     public Sprite avatar;
 
     // TODO
-    public static CardScriptable LoadCardFromDisk(CardId cardId)
+    public static CardScriptable LoadCardDataFromDisk(CardType cardId)
     {
-        var newCard = Resources.Load<CardScriptable>("Scriptables/" + Enum.GetName(typeof(CardId), cardId));
+        var newCard = Resources.Load<CardScriptable>("Scriptables/" + Enum.GetName(typeof(CardType), cardId));
         if (!newCard) { Debug.Log("Card scriptable does not exist"); return null; }
         return newCard;
     }
 
-    public static MinionCardBehaviour LoadMinionFromDisk(CardId cardId)
+    public static CardBehaviour LoadCardFromDisk(CardType cardId)
     {
-        var newMinion = Resources.Load<MinionCardBehaviour>("Prefabs/" + Enum.GetName(typeof(CardId), cardId));
-        if (!newMinion) { Debug.Log("Minion prefab does not exist"); return null; }
-        return newMinion;
+        var newCard = Resources.Load<CardBehaviour>("Prefabs/" + Enum.GetName(typeof(CardType), cardId));
+        if (!newCard) { Debug.Log("Card prefab does not exist"); return null; }
+        return newCard;
     }
 }
 
-public enum CardId
+public enum CardType
 {
     None = 0,
     BasicMinion,
@@ -45,14 +45,14 @@ public enum CardId
     BasicItem
 }
 
-public enum CardType
+public enum CardCategory
 {
     Minion,
     Action,
     Item
 }
 
-public enum RarityType
+public enum CardRarity
 {
     Common,
     Uncommon,

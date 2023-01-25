@@ -24,6 +24,26 @@ public class HandDisplay : MonoBehaviour
 
     public void OnHandChange(short type, HandChangeEvent eventData)
     {
+        var handCards = eventData.HandCards;
+        if (!eventData.IsEnemy)
+        {
+            foreach (var handCard in handCards)
+            {
+                handCard.SetDisplay(true);
+                handCard.SetCardBack(false);
+                handCard.transform.SetParent(playerHandSpawn, false);
+            }
+        }
+        else
+        {
+            foreach (var handCard in handCards)
+            {
+                handCard.SetDisplay(true);
+                handCard.SetCardBack(true);
+                handCard.transform.SetParent(enemyHandSpawn, false);
+            }
+        }
+        /*
         if (!eventData.IsEnemy)
         {
             foreach (Transform child in playerHandSpawn.transform)
@@ -33,7 +53,7 @@ public class HandDisplay : MonoBehaviour
             foreach (CardId cardId in eventData.HandCards)
             {
                 var newCard = Instantiate(cardPrefab, playerHandSpawn);
-                newCard.cardData = CardScriptable.LoadCardFromDisk(cardId);
+                newCard.cardData = CardScriptable.LoadCardDataFromDisk(cardId);
                 newCard.SetCardBack(false);
             }
         }
@@ -46,9 +66,9 @@ public class HandDisplay : MonoBehaviour
             foreach (CardId cardId in eventData.HandCards)
             {
                 var newCard = Instantiate(cardPrefab, enemyHandSpawn);
-                newCard.cardData = CardScriptable.LoadCardFromDisk(cardId);
+                newCard.cardData = CardScriptable.LoadCardDataFromDisk(cardId);
                 newCard.SetCardBack(true);
             }
-        }
+        }*/
     }
 }

@@ -6,9 +6,9 @@ using UnityEngine;
 public struct HandChangeEvent
 {
     public bool IsEnemy { get; private set; }
-    public List<CardId> HandCards { get; private set; }
+    public List<CardBehaviour> HandCards { get; private set; }
 
-    public HandChangeEvent(bool isEnemy, List<CardId> handCards)
+    public HandChangeEvent(bool isEnemy, List<CardBehaviour> handCards)
     {
         IsEnemy = isEnemy;
         HandCards = handCards;

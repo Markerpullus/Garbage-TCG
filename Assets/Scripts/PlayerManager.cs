@@ -5,11 +5,11 @@ using Mirror;
 
 public class PlayerManager : NetworkBehaviour
 {
-    public readonly SyncList<CardId> playerHand = new SyncList<CardId>();
+    public readonly SyncList<CardBehaviour> playerHand = new SyncList<CardBehaviour>();
     public readonly SyncList<MinionCardBehaviour> deployedMinions = new SyncList<MinionCardBehaviour>();
 
-    [SerializeField]
-    CardBehaviour selectedCard = null;
+    [SyncVar]
+    public CardBehaviour selectedCard = null;
 
     public override void OnStartClient()
     {
@@ -20,23 +20,34 @@ public class PlayerManager : NetworkBehaviour
         EventDispatcher.Instance.AddEventHandler<FieldSelectEvent>(7, OnFieldSelect);
     }
 
+    // TODO: change all cardids to cardbehaviours
     [Command]
-    public void CmdRequestDeployMinion(CardId card, int location)
+    public void CmdRequestDeployMinion(CardBehaviour card, int location)
     {
-        // TODO: run checks on if the deployment is valid
-        ServerDeployMinion(card, location);
+        // TODO: run checks on if the deployment is valid: is card minion, is location valid, does player have card
+        if (card.cardData.cardCategory == CardCategory.Minion
+            && location >= 0 && location <= deployedMinions.Count
+            && card.owner == this)
+        {
+            ServerDeployMinion(card.cardData.cardType, location);
+            playerHand.Remove(card);
+            NetworkServer.Destroy(card.gameObject);
+        }
     }
 
     // Might ptimize later so that not the entire handcard class is sent over network
     [Server]
-    public void ServerDeployMinion(CardId card, int location)
+    public void ServerDeployMinion(CardType card, int location)
     {
-        var newMinionPrefab = CardScriptable.LoadMinionFromDisk(card);
+        Debug.Log(card);
+        var newMinionPrefab = CardScriptable.LoadCardFromDisk(card);
         if (!newMinionPrefab) { Debug.Log("Card is not minion"); return; }
         var newMinion = Instantiate(newMinionPrefab);
-        newMinion.transform.localScale = new Vector3(0, 0, 0);
+        newMinion.isDeployed = true;
+        newMinion.SetDisplay(false);
+        newMinion.owner = this;
         NetworkServer.Spawn(newMinion.gameObject);
-        deployedMinions.Insert(location, newMinion);
+        deployedMinions.Insert(location, newMinion.GetComponent<MinionCardBehaviour>());
         RpcDeployMinion(newMinion.gameObject, location);
     }
 
@@ -48,16 +59,22 @@ public class PlayerManager : NetworkBehaviour
 
     // test function
     [Command]
-    public void CmdAddCard(CardId card)
+    public void CmdAddCard(CardType card)
     {
-        playerHand.Add(card);
+        var newCardPrefab = CardScriptable.LoadCardFromDisk(card);
+        var newCard = Instantiate(newCardPrefab);
+        newCard.isDeployed = false;
+        newCard.SetDisplay(false);
+        newCard.owner = this;
+        NetworkServer.Spawn(newCard.gameObject);
+        playerHand.Add(newCard);
         RpcUpdateHand();
     }
 
     [ClientRpc]
     public void RpcUpdateHand()
     {
-        var newHand = new List<CardId>(playerHand);
+        var newHand = new List<CardBehaviour>(playerHand);
         EventDispatcher.Instance.SendEvent(4, new HandChangeEvent(!isLocalPlayer, newHand));
     }
 
@@ -72,9 +89,10 @@ public class PlayerManager : NetworkBehaviour
         if (selectedCard)
         {
             // if card is minion
-            if (selectedCard.cardData.cardType == CardType.Minion)
+            if (selectedCard.cardData.cardCategory == CardCategory.Minion)
             {
                 Debug.Log("Deploy minion");
+                CmdRequestDeployMinion(selectedCard, 0);
                 
             }
 
@@ -82,6 +100,7 @@ public class PlayerManager : NetworkBehaviour
 
             // if card is item
         }
+        selectedCard = null;
     }
 
     // Start is called before the first frame update
@@ -97,11 +116,11 @@ public class PlayerManager : NetworkBehaviour
         if (!isLocalPlayer) { return; }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            CmdAddCard(CardId.BasicMinion);
+            CmdAddCard(CardType.BasicMinion);
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            CmdRequestDeployMinion(CardId.BasicMinion, 0);
+            //CmdRequestDeployMinion(CardType.BasicMinion, 0);
         }
     }
 }
