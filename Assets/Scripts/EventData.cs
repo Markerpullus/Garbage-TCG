@@ -48,3 +48,11 @@ public struct FieldSelectEvent
 
     public FieldSelectEvent(int location) { Location = location; }
 }
+
+// #8: Energy change event
+public struct EnergyChangeEvent
+{
+    public int Energy;
+    
+    public EnergyChangeEvent(int energy) { Energy = energy; }
+}

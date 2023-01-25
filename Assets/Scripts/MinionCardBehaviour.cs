@@ -5,7 +5,8 @@ using Mirror;
 [RequireComponent(typeof(CardBehaviour))]
 public class MinionCardBehaviour : NetworkBehaviour
 {
-    [SyncVar] public int health;
+    [SyncVar]
+    public int health;
 
     CardBehaviour cardObject;
 

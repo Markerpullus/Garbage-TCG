@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class CardBehaviour : NetworkBehaviour
 {
@@ -34,20 +35,33 @@ public class CardBehaviour : NetworkBehaviour
         display.SetCardBack(enabled);
     }
 
-    public void OnSelect()
+    [Command(requiresAuthority = false)]
+    public void CmdOnSelect()
     {
-        display.SetYShift(20f);
+        RpcOnSelect();
     }
 
-    public void OnDeselect()
+    [ClientRpc]
+    public void RpcOnSelect()
     {
-        display.SetYShift(-20f);
+        display.SetYShift(20f - 40f * Convert.ToInt32(IsEnemy()));
     }
 
-    // Update is called once per frame
-    void Update()
+    [Command(requiresAuthority = false)]
+    public void CmdOnDeselect()
     {
-        
+        RpcOnDeselect();
+    }
+
+    [ClientRpc]
+    public void RpcOnDeselect()
+    {
+        display.SetYShift(-20f + 40f * Convert.ToInt32(IsEnemy()));
+    }
+
+    public bool IsEnemy()
+    {
+        return (owner != NetworkClient.localPlayer.GetComponent<PlayerManager>());
     }
 
     public void OnCardClick()

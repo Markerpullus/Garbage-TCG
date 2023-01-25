@@ -43,32 +43,5 @@ public class HandDisplay : MonoBehaviour
                 handCard.transform.SetParent(enemyHandSpawn, false);
             }
         }
-        /*
-        if (!eventData.IsEnemy)
-        {
-            foreach (Transform child in playerHandSpawn.transform)
-            {
-                Destroy(child.gameObject);
-            }
-            foreach (CardId cardId in eventData.HandCards)
-            {
-                var newCard = Instantiate(cardPrefab, playerHandSpawn);
-                newCard.cardData = CardScriptable.LoadCardDataFromDisk(cardId);
-                newCard.SetCardBack(false);
-            }
-        }
-        else
-        {
-            foreach (Transform child in enemyHandSpawn.transform)
-            {
-                Destroy(child.gameObject);
-            }
-            foreach (CardId cardId in eventData.HandCards)
-            {
-                var newCard = Instantiate(cardPrefab, enemyHandSpawn);
-                newCard.cardData = CardScriptable.LoadCardDataFromDisk(cardId);
-                newCard.SetCardBack(true);
-            }
-        }*/
     }
 }
