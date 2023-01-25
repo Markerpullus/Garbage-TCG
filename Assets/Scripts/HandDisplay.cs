@@ -34,6 +34,7 @@ public class HandDisplay : MonoBehaviour
             {
                 var newCard = Instantiate(cardPrefab, playerHandSpawn);
                 newCard.cardData = CardScriptable.LoadCardFromDisk(cardId);
+                newCard.SetCardBack(false);
             }
         }
         else
@@ -46,6 +47,7 @@ public class HandDisplay : MonoBehaviour
             {
                 var newCard = Instantiate(cardPrefab, enemyHandSpawn);
                 newCard.cardData = CardScriptable.LoadCardFromDisk(cardId);
+                newCard.SetCardBack(true);
             }
         }
     }

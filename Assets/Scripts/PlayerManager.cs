@@ -8,8 +8,6 @@ public class PlayerManager : NetworkBehaviour
     public readonly SyncList<CardId> playerHand = new SyncList<CardId>();
     public readonly SyncList<MinionCardBehaviour> deployedMinions = new SyncList<MinionCardBehaviour>();
 
-    public CardDisplay cardDisplay;
-
     public override void OnStartClient()
     {
         base.OnStartClient();

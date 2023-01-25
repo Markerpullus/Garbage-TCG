@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class MinionDisplay : MonoBehaviour
+public class FieldDisplay : MonoBehaviour
 {
     [Header("Minion Spawn Locations")]
     public RectTransform playerMinionSpawn;
@@ -15,6 +15,7 @@ public class MinionDisplay : MonoBehaviour
     public void OnMinionDeploy(short type, MinionDeployEvent eventData)
     {
         var newMinion = eventData.NewMinion;
+        newMinion.GetComponent<CardDisplay>().SetCardBack(false);
         if (!eventData.IsEnemy)
         {
             newMinion.transform.SetParent(playerMinionSpawn, false);

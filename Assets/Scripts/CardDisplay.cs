@@ -12,6 +12,7 @@ public class CardDisplay : MonoBehaviour
     public SpriteRenderer avatarDisplay;
     public TMP_Text healthDisplay;
     public SpriteRenderer backgroundDisplay;
+    public SpriteRenderer backDisplay;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -43,6 +44,11 @@ public class CardDisplay : MonoBehaviour
                 break;
         }
         //Card rarity colors: common brown uncommon green rare blue super rare orange legendary red transcendant glow
+    }
+
+    public void SetCardBack(bool enabled)
+    {
+        backDisplay.gameObject.SetActive(enabled);
     }
 
     // Update is called once per frame
