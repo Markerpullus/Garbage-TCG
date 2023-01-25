@@ -3,28 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-[RequireComponent(typeof(CardDisplay))]
 public class CardBehaviour : NetworkBehaviour
 {
-    public CardScriptable cardData;
-
-    [SyncVar]
-    public int health;
+    public CardScriptable data;
 
     // to be used
     [SyncVar]
-    public bool isDeployed;
+    public bool isDeployed = false;
     [SyncVar]
     public PlayerManager owner;
 
     [Header("Display")]
     CardDisplay display;
 
-    // Start is called before the first frame update
     void OnEnable()
     {
-        if (isServer) { health = cardData.maxHealth; }
-        display = GetComponent<CardDisplay>();
+        if (!TryGetComponent(out display))
+        {
+            Debug.Log("No display attached to this card");
+        }
     }
 
     public void SetDisplay(bool enabled)

@@ -16,8 +16,8 @@ public class FieldDisplay : MonoBehaviour, IPointerClickHandler
     public void OnMinionDeploy(short type, MinionDeployEvent eventData)
     {
         var newMinion = eventData.NewMinion;
-        newMinion.GetComponent<CardBehaviour>().SetDisplay(true);
-        newMinion.GetComponent<CardBehaviour>().SetCardBack(false);
+        newMinion.SetDisplay(true);
+        newMinion.SetCardBack(false);
         if (!eventData.IsEnemy)
         {
             newMinion.transform.SetParent(playerMinionSpawn, false);

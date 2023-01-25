@@ -7,9 +7,9 @@ using UnityEngine;
 public class CardScriptable : ScriptableObject
 {
     [Header("Identity")]
-    public CardType cardType;
-    public CardCategory cardCategory;
-    public CardRarity cardRarity;
+    public CardType type;
+    public CardCategory category;
+    public CardRarity rarity;
 
     [Header("Stats")]
     public int maxHealth;

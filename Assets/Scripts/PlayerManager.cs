@@ -25,11 +25,11 @@ public class PlayerManager : NetworkBehaviour
     public void CmdRequestDeployMinion(CardBehaviour card, int location)
     {
         // TODO: run checks on if the deployment is valid: is card minion, is location valid, does player have card
-        if (card.cardData.cardCategory == CardCategory.Minion
+        if (card.data.category == CardCategory.Minion
             && location >= 0 && location <= deployedMinions.Count
             && card.owner == this)
         {
-            ServerDeployMinion(card.cardData.cardType, location);
+            ServerDeployMinion(card.data.type, location);
             playerHand.Remove(card);
             NetworkServer.Destroy(card.gameObject);
         }
@@ -48,11 +48,11 @@ public class PlayerManager : NetworkBehaviour
         newMinion.owner = this;
         NetworkServer.Spawn(newMinion.gameObject);
         deployedMinions.Insert(location, newMinion.GetComponent<MinionCardBehaviour>());
-        RpcDeployMinion(newMinion.gameObject, location);
+        RpcDeployMinion(newMinion, location);
     }
 
     [ClientRpc]
-    public void RpcDeployMinion(GameObject newMinion, int location)
+    public void RpcDeployMinion(CardBehaviour newMinion, int location)
     {
         EventDispatcher.Instance.SendEvent(5, new MinionDeployEvent(!isLocalPlayer, newMinion, location));
     }
@@ -111,7 +111,7 @@ public class PlayerManager : NetworkBehaviour
         if (selectedCard)
         {
             // if card is minion
-            if (selectedCard.cardData.cardCategory == CardCategory.Minion)
+            if (selectedCard.data.category == CardCategory.Minion)
             {
                 Debug.Log("Deploy minion");
                 CmdRequestDeployMinion(selectedCard, 0);

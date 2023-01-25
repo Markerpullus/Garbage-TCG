@@ -19,12 +19,12 @@ public class CardDisplay : MonoBehaviour, IPointerClickHandler
     {
         cardObject = GetComponent<CardBehaviour>();
 
-        var cardData = cardObject.cardData;
+        var cardData = cardObject.data;
         energyDisplay.text = cardData.energy.ToString();
         healthDisplay.text = cardData.maxHealth.ToString();
         avatarDisplay.sprite = cardData.avatar;
 
-        switch (cardData.cardRarity)
+        switch (cardData.rarity)
         {
             case CardRarity.Common:
                 backgroundDisplay.color = new Color(204, 102, 0); //brown

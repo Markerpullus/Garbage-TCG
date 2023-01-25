@@ -19,10 +19,10 @@ public struct HandChangeEvent
 public struct MinionDeployEvent
 {
     public bool IsEnemy { get; private set; }
-    public GameObject NewMinion;
+    public CardBehaviour NewMinion;
     public int Location;
 
-    public MinionDeployEvent(bool isEnemy, GameObject newMinion, int location)
+    public MinionDeployEvent(bool isEnemy, CardBehaviour newMinion, int location)
     {
         IsEnemy = isEnemy;
         NewMinion = newMinion;
