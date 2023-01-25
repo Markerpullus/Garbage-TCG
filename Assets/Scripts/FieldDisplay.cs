@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class FieldDisplay : MonoBehaviour
+public class FieldDisplay : MonoBehaviour, IPointerClickHandler
 {
     [Header("Minion Spawn Locations")]
     public RectTransform playerMinionSpawn;
@@ -15,7 +16,8 @@ public class FieldDisplay : MonoBehaviour
     public void OnMinionDeploy(short type, MinionDeployEvent eventData)
     {
         var newMinion = eventData.NewMinion;
-        newMinion.GetComponent<CardDisplay>().SetCardBack(false);
+        newMinion.transform.localScale = new Vector3(15, 15, 15);
+        newMinion.GetComponent<CardBehaviour>().SetCardBack(false);
         if (!eventData.IsEnemy)
         {
             newMinion.transform.SetParent(playerMinionSpawn, false);
@@ -25,5 +27,10 @@ public class FieldDisplay : MonoBehaviour
             newMinion.transform.SetParent(enemyMinionSpawn, false);
         }
         newMinion.transform.SetSiblingIndex(eventData.Location);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        EventDispatcher.Instance.SendEvent(7, new FieldSelectEvent(1)); // TODO: "1" is temporary, replaced with the slot that the card fits in
     }
 }

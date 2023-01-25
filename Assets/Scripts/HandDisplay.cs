@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HandDisplay : MonoBehaviour
 {
-    public CardDisplay cardPrefab;
+    public CardBehaviour cardPrefab;
 
     [Header("Card Spawn Locations")]
     public RectTransform playerHandSpawn;

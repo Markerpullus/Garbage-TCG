@@ -29,3 +29,22 @@ public struct MinionDeployEvent
         Location = location;
     }
 }
+
+// #6: Card select event
+public struct CardClickEvent
+{
+    public CardBehaviour Card;
+
+    public CardClickEvent(CardBehaviour card)
+    {
+        Card = card;
+    }
+}
+
+// #7: Field Select Event
+public struct FieldSelectEvent
+{
+    public int Location;
+
+    public FieldSelectEvent(int location) { Location = location; }
+}
