@@ -63,7 +63,7 @@ public class CardBehaviour : NetworkBehaviour, IPointerClickHandler
     {
         if (enabled)
         {
-            transform.localScale = new Vector3(15, 15, 15);
+            transform.localScale = new Vector3(15, 15, 1);
         }
         else
         {
